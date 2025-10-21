@@ -6,6 +6,21 @@ const { check, checkSchema, validationResult } = require('express-validator');
 const nier = require('./Model/nier');
 
 //Setup defaults for script
+app.use(cors());
+app.use(express.static("public"));
+
+
+//Stylesheet
+app.use(express.static(__dirname + '/public'));
+//Webpage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
+
+
+//Setup defaults for script
 const app = express();
 const storage = multer.diskStorage({
     //Logic where to upload file
