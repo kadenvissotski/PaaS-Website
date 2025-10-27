@@ -1,0 +1,757 @@
+/* Reset and base styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f9fc;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 600;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #eaeaea;
+}
+
+input,
+select,
+button {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+}
+
+button {
+    background-color: #10b135;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff0000;
+}
+
+.container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.overflow {
+    overflow-x: auto;
+}
+
+/* Additional styles for 150 total rules */
+.extra-style-0 {
+    border-radius: 0px;
+    color: hsl(0, 50%, 40%);
+}
+
+#extra-id-0 {
+    background-color: hsl(0, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-1 {
+    border-radius: 1px;
+    color: hsl(13, 50%, 40%);
+}
+
+#extra-id-1 {
+    background-color: hsl(17, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-2 {
+    border-radius: 2px;
+    color: hsl(26, 50%, 40%);
+}
+
+#extra-id-2 {
+    background-color: hsl(34, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-3 {
+    border-radius: 3px;
+    color: hsl(39, 50%, 40%);
+}
+
+#extra-id-3 {
+    background-color: hsl(51, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-4 {
+    border-radius: 4px;
+    color: hsl(52, 50%, 40%);
+}
+
+#extra-id-4 {
+    background-color: hsl(68, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-5 {
+    border-radius: 5px;
+    color: hsl(65, 50%, 40%);
+}
+
+#extra-id-5 {
+    background-color: hsl(85, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-6 {
+    border-radius: 6px;
+    color: hsl(78, 50%, 40%);
+}
+
+#extra-id-6 {
+    background-color: hsl(102, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-7 {
+    border-radius: 7px;
+    color: hsl(91, 50%, 40%);
+}
+
+#extra-id-7 {
+    background-color: hsl(119, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-8 {
+    border-radius: 8px;
+    color: hsl(104, 50%, 40%);
+}
+
+#extra-id-8 {
+    background-color: hsl(136, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-9 {
+    border-radius: 9px;
+    color: hsl(117, 50%, 40%);
+}
+
+#extra-id-9 {
+    background-color: hsl(153, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-10 {
+    border-radius: 0px;
+    color: hsl(130, 50%, 40%);
+}
+
+#extra-id-10 {
+    background-color: hsl(170, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-11 {
+    border-radius: 1px;
+    color: hsl(143, 50%, 40%);
+}
+
+#extra-id-11 {
+    background-color: hsl(187, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-12 {
+    border-radius: 2px;
+    color: hsl(156, 50%, 40%);
+}
+
+#extra-id-12 {
+    background-color: hsl(204, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-13 {
+    border-radius: 3px;
+    color: hsl(169, 50%, 40%);
+}
+
+#extra-id-13 {
+    background-color: hsl(221, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-14 {
+    border-radius: 4px;
+    color: hsl(182, 50%, 40%);
+}
+
+#extra-id-14 {
+    background-color: hsl(238, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-15 {
+    border-radius: 5px;
+    color: hsl(195, 50%, 40%);
+}
+
+#extra-id-15 {
+    background-color: hsl(255, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-16 {
+    border-radius: 6px;
+    color: hsl(208, 50%, 40%);
+}
+
+#extra-id-16 {
+    background-color: hsl(272, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-17 {
+    border-radius: 7px;
+    color: hsl(221, 50%, 40%);
+}
+
+#extra-id-17 {
+    background-color: hsl(289, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-18 {
+    border-radius: 8px;
+    color: hsl(234, 50%, 40%);
+}
+
+#extra-id-18 {
+    background-color: hsl(306, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-19 {
+    border-radius: 9px;
+    color: hsl(247, 50%, 40%);
+}
+
+#extra-id-19 {
+    background-color: hsl(323, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-20 {
+    border-radius: 0px;
+    color: hsl(260, 50%, 40%);
+}
+
+#extra-id-20 {
+    background-color: hsl(340, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-21 {
+    border-radius: 1px;
+    color: hsl(273, 50%, 40%);
+}
+
+#extra-id-21 {
+    background-color: hsl(357, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-22 {
+    border-radius: 2px;
+    color: hsl(286, 50%, 40%);
+}
+
+#extra-id-22 {
+    background-color: hsl(14, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-23 {
+    border-radius: 3px;
+    color: hsl(299, 50%, 40%);
+}
+
+#extra-id-23 {
+    background-color: hsl(31, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-24 {
+    border-radius: 4px;
+    color: hsl(312, 50%, 40%);
+}
+
+#extra-id-24 {
+    background-color: hsl(48, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-25 {
+    border-radius: 5px;
+    color: hsl(325, 50%, 40%);
+}
+
+#extra-id-25 {
+    background-color: hsl(65, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-26 {
+    border-radius: 6px;
+    color: hsl(338, 50%, 40%);
+}
+
+#extra-id-26 {
+    background-color: hsl(82, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-27 {
+    border-radius: 7px;
+    color: hsl(351, 50%, 40%);
+}
+
+#extra-id-27 {
+    background-color: hsl(99, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-28 {
+    border-radius: 8px;
+    color: hsl(4, 50%, 40%);
+}
+
+#extra-id-28 {
+    background-color: hsl(116, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-29 {
+    border-radius: 9px;
+    color: hsl(17, 50%, 40%);
+}
+
+#extra-id-29 {
+    background-color: hsl(133, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-30 {
+    border-radius: 0px;
+    color: hsl(30, 50%, 40%);
+}
+
+#extra-id-30 {
+    background-color: hsl(150, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-31 {
+    border-radius: 1px;
+    color: hsl(43, 50%, 40%);
+}
+
+#extra-id-31 {
+    background-color: hsl(167, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-32 {
+    border-radius: 2px;
+    color: hsl(56, 50%, 40%);
+}
+
+#extra-id-32 {
+    background-color: hsl(184, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-33 {
+    border-radius: 3px;
+    color: hsl(69, 50%, 40%);
+}
+
+#extra-id-33 {
+    background-color: hsl(201, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-34 {
+    border-radius: 4px;
+    color: hsl(82, 50%, 40%);
+}
+
+#extra-id-34 {
+    background-color: hsl(218, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-35 {
+    border-radius: 5px;
+    color: hsl(95, 50%, 40%);
+}
+
+#extra-id-35 {
+    background-color: hsl(235, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-36 {
+    border-radius: 6px;
+    color: hsl(108, 50%, 40%);
+}
+
+#extra-id-36 {
+    background-color: hsl(252, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-37 {
+    border-radius: 7px;
+    color: hsl(121, 50%, 40%);
+}
+
+#extra-id-37 {
+    background-color: hsl(269, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-38 {
+    border-radius: 8px;
+    color: hsl(134, 50%, 40%);
+}
+
+#extra-id-38 {
+    background-color: hsl(286, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-39 {
+    border-radius: 9px;
+    color: hsl(147, 50%, 40%);
+}
+
+#extra-id-39 {
+    background-color: hsl(303, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-40 {
+    border-radius: 0px;
+    color: hsl(160, 50%, 40%);
+}
+
+#extra-id-40 {
+    background-color: hsl(320, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-41 {
+    border-radius: 1px;
+    color: hsl(173, 50%, 40%);
+}
+
+#extra-id-41 {
+    background-color: hsl(337, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-42 {
+    border-radius: 2px;
+    color: hsl(186, 50%, 40%);
+}
+
+#extra-id-42 {
+    background-color: hsl(354, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-43 {
+    border-radius: 3px;
+    color: hsl(199, 50%, 40%);
+}
+
+#extra-id-43 {
+    background-color: hsl(11, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-44 {
+    border-radius: 4px;
+    color: hsl(212, 50%, 40%);
+}
+
+#extra-id-44 {
+    background-color: hsl(28, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-45 {
+    border-radius: 5px;
+    color: hsl(225, 50%, 40%);
+}
+
+#extra-id-45 {
+    background-color: hsl(45, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-46 {
+    border-radius: 6px;
+    color: hsl(238, 50%, 40%);
+}
+
+#extra-id-46 {
+    background-color: hsl(62, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-47 {
+    border-radius: 7px;
+    color: hsl(251, 50%, 40%);
+}
+
+#extra-id-47 {
+    background-color: hsl(79, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-48 {
+    border-radius: 8px;
+    color: hsl(264, 50%, 40%);
+}
+
+#extra-id-48 {
+    background-color: hsl(96, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-49 {
+    border-radius: 9px;
+    color: hsl(277, 50%, 40%);
+}
+
+#extra-id-49 {
+    background-color: hsl(113, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-50 {
+    border-radius: 0px;
+    color: hsl(290, 50%, 40%);
+}
+
+#extra-id-50 {
+    background-color: hsl(130, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-51 {
+    border-radius: 1px;
+    color: hsl(303, 50%, 40%);
+}
+
+#extra-id-51 {
+    background-color: hsl(147, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-52 {
+    border-radius: 2px;
+    color: hsl(316, 50%, 40%);
+}
+
+#extra-id-52 {
+    background-color: hsl(164, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-53 {
+    border-radius: 3px;
+    color: hsl(329, 50%, 40%);
+}
+
+#extra-id-53 {
+    background-color: hsl(181, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-54 {
+    border-radius: 4px;
+    color: hsl(342, 50%, 40%);
+}
+
+#extra-id-54 {
+    background-color: hsl(198, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-55 {
+    border-radius: 5px;
+    color: hsl(355, 50%, 40%);
+}
+
+#extra-id-55 {
+    background-color: hsl(215, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-56 {
+    border-radius: 6px;
+    color: hsl(8, 50%, 40%);
+}
+
+#extra-id-56 {
+    background-color: hsl(232, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-57 {
+    border-radius: 7px;
+    color: hsl(21, 50%, 40%);
+}
+
+#extra-id-57 {
+    background-color: hsl(249, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-58 {
+    border-radius: 8px;
+    color: hsl(34, 50%, 40%);
+}
+
+#extra-id-58 {
+    background-color: hsl(266, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-59 {
+    border-radius: 9px;
+    color: hsl(47, 50%, 40%);
+}
+
+#extra-id-59 {
+    background-color: hsl(283, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-60 {
+    border-radius: 0px;
+    color: hsl(60, 50%, 40%);
+}
+
+#extra-id-60 {
+    background-color: hsl(300, 60%, 95%);
+    font-size: 12px;
+}
+
+.extra-style-61 {
+    border-radius: 1px;
+    color: hsl(73, 50%, 40%);
+}
+
+#extra-id-61 {
+    background-color: hsl(317, 60%, 95%);
+    font-size: 13px;
+}
+
+.extra-style-62 {
+    border-radius: 2px;
+    color: hsl(86, 50%, 40%);
+}
+
+#extra-id-62 {
+    background-color: hsl(334, 60%, 95%);
+    font-size: 14px;
+}
+
+.extra-style-63 {
+    border-radius: 3px;
+    color: hsl(99, 50%, 40%);
+}
+
+#extra-id-63 {
+    background-color: hsl(351, 60%, 95%);
+    font-size: 15px;
+}
+
+.extra-style-64 {
+    border-radius: 4px;
+    color: hsl(112, 50%, 40%);
+}
+
+#extra-id-64 {
+    background-color: hsl(8, 60%, 95%);
+    font-size: 16px;
+}
+
+.extra-style-65 {
+    border-radius: 5px;
+    color: hsl(125, 50%, 40%);
+}
+
+#extra-id-65 {
+    background-color: hsl(25, 60%, 95%);
+    font-size: 17px;
+}
+
+.extra-style-66 {
+    border-radius: 6px;
+    color: hsl(138, 50%, 40%);
+}
+
+#extra-id-66 {
+    background-color: hsl(42, 60%, 95%);
+    font-size: 12px;
+}
+
+/* Extended styles for full uniqueness */

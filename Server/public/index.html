@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>NieR Weapon Database</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="container py-4">
+    <h1 class="mb-4">NieR Weapons</h1>
+
+    <div class="row mb-3">
+        <div class="col-md-2">
+            <input id="nameFilter" class="form-control" placeholder="Name contains...">
+        </div>
+        <div class="col-md-2">
+            <input id="typeFilter" class="form-control" placeholder="Type (e.g. Spear)">
+        </div>
+        <div class="col-md-2">
+            <input id="minDamage" type="number" class="form-control" placeholder="Min Damage">
+        </div>
+        <div class="col-md-2">
+            <select id="sort" class="form-select">
+                <option value="">-- Sort By --</option>
+                <option value="weapon_name-asc">Name A–Z</option>
+                <option value="damage-desc">Damage High–Low</option>
+                <option value="damage-asc">Damage Low–High</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select id="limit" class="form-select">
+                <option value="10">Limit 10</option>
+                <option value="5">Limit 5</option>
+                <option value="20">Limit 20</option>
+                <option value="all">Show All</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100" id="applyFilters">Apply Filters</button>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <a href="insert.html" class="btn btn-success">Insert New Weapon</a>
+    </div>
+
+    <div id="weapon-data"></div>
+
+    <script>
+        function loadWeapons() {
+            const params = new URLSearchParams();
+
+            const name = document.getElementById("nameFilter").value;
+            const type = document.getElementById("typeFilter").value;
+            const minDamage = document.getElementById("minDamage").value;
+            const sortValue = document.getElementById("sort").value;
+            const limit = document.getElementById("limit").value;
+
+            if (name) params.append("weapon_name", name);
+            if (type) params.append("type", type);
+            if (minDamage) params.append("minDamage", minDamage);
+            if (sortValue) {
+                const [col, dir] = sortValue.split("-");
+                params.append("sort", col);
+                params.append("order", dir);
+            }
+            if (limit) params.append("limit", limit);
+
+            fetch(`/weapons/?${params.toString()}`)
+                .then(res => res.json())
+                .then(json => {
+                    let html = "<div class='overflow'><table class='table table-bordered'>";
+                    html += "<thead><tr>" +
+                        "<th>ID</th><th>Name</th><th>Type</th><th>Damage</th><th>Effect</th>" +
+                        "<th>Material</th><th>Total Needed</th><th>Locations</th><th>Actions</th>" +
+                        "</tr></thead><tbody>";
+                    for (const w of json.data) {
+                        html += `<tr>
+                            <td>${w.weapon_id}</td>
+                            <td>${w.weapon_name}</td>
+                            <td>${w.type}</td>
+                            <td>${w.damage}</td>
+                            <td>${w.effect}</td>
+                            <td>${w.material_name}</td>
+                            <td>${w.total_needed}</td>
+                            <td>${w.locations}</td>
+                            <td>
+                                <a href='edit.html?id=${w.weapon_id}'>Edit</a> -
+                                <a href='delete.html?id=${w.weapon_id}'>Delete</a>
+                            </td>
+                        </tr>`;
+                    }
+                    html += "</tbody></table></div>";
+                    document.getElementById("weapon-data").innerHTML = html;
+                })
+                .catch(err => {
+                    console.error("Fetch error:", err);
+                    document.getElementById("weapon-data").innerHTML = "<p>Error loading data.</p>";
+                });
+        }
+
+        document.getElementById("applyFilters").addEventListener("click", loadWeapons);
+        window.onload = loadWeapons;
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+    <title>Edit Weapon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Edit Weapon</h1>
+
+    <label>Weapon Name:</label><br>
+    <input id="weapon_name" type="text"><br>
+    <div id="weaponNameError" class="error"></div>
+
+    <label>Type:</label><br>
+    <input id="type" type="text"><br>
+    <div id="typeError" class="error"></div>
+
+    <label>Damage:</label><br>
+    <input id="damage" type="number"><br>
+    <div id="damageError" class="error"></div>
+
+    <label>Effect:</label><br>
+    <input id="effect" type="text"><br>
+    <div id="effectError" class="error"></div>
+
+    <label>Material Name:</label><br>
+    <input id="material_name" type="text"><br>
+    <div id="materialNameError" class="error"></div>
+
+    <label>Total Needed:</label><br>
+    <input id="total_needed" type="number"><br>
+    <div id="totalNeededError" class="error"></div>
+
+    <label>Locations:</label><br>
+    <input id="locations" type="text"><br>
+    <div id="locationsError" class="error"></div>
+
+    <button id="save">Save</button>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        fetch(`/weapons/${id}/`)
+            .then(res => res.json())
+            .then(data => {
+                const weapon = data.data[0];
+                document.getElementById('weapon_name').value = weapon.weapon_name;
+                document.getElementById('type').value = weapon.type;
+                document.getElementById('damage').value = weapon.damage;
+                document.getElementById('effect').value = weapon.effect;
+                document.getElementById('material_name').value = weapon.material_name;
+                document.getElementById('total_needed').value = weapon.total_needed;
+                document.getElementById('locations').value = weapon.locations;
+            });
+
+        document.getElementById('save').addEventListener('click', () => {
+            const form = {
+                weapon_name: document.getElementById('weapon_name').value.trim(),
+                type: document.getElementById('type').value.trim(),
+                damage: document.getElementById('damage').value.trim(),
+                effect: document.getElementById('effect').value.trim(),
+                material_name: document.getElementById('material_name').value.trim(),
+                total_needed: document.getElementById('total_needed').value.trim(),
+                locations: document.getElementById('locations').value.trim()
+            };
+
+            // Clear errors
+            ['weaponNameError', 'typeError', 'damageError', 'effectError', 'materialNameError', 'totalNeededError', 'locationsError']
+                .forEach(id => document.getElementById(id).textContent = '');
+
+            let hasError = false;
+
+            if (!form.weapon_name) {
+                document.getElementById('weaponNameError').textContent = 'Weapon name is required.';
+                hasError = true;
+            }
+            if (!form.type) {
+                document.getElementById('typeError').textContent = 'Type is required.';
+                hasError = true;
+            }
+            if (form.damage === '' || isNaN(form.damage)) {
+                document.getElementById('damageError').textContent = 'Damage must be a number.';
+                hasError = true;
+            } else if (parseInt(form.damage) < 0) {
+                document.getElementById('damageError').textContent = 'Damage cannot be negative.';
+                hasError = true;
+            }
+            if (!form.effect) {
+                document.getElementById('effectError').textContent = 'Effect is required.';
+                hasError = true;
+            }
+            if (!form.material_name) {
+                document.getElementById('materialNameError').textContent = 'Material name is required.';
+                hasError = true;
+            }
+            if (form.total_needed === '' || isNaN(form.total_needed)) {
+                document.getElementById('totalNeededError').textContent = 'Total needed must be a number.';
+                hasError = true;
+            } else if (parseInt(form.total_needed) <= 0) {
+                document.getElementById('totalNeededError').textContent = 'Must be at least 1.';
+                hasError = true;
+            }
+            if (!form.locations) {
+                document.getElementById('locationsError').textContent = 'Locations are required.';
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            const formData = new FormData();
+            for (let key in form) {
+                formData.append(key, form[key]);
+            }
+
+            fetch(`/weapons/${id}/`, {
+                method: 'PUT',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.errors) {
+                    data.errors.forEach(err => {
+                        const field = err.param.replace(/_/g, '');
+                        const errorId = field.charAt(0).toLowerCase() + field.slice(1) + 'Error';
+                        if (document.getElementById(errorId)) {
+                            document.getElementById(errorId).textContent = err.msg;
+                        }
+                    });
+                    return;
+                }
+
+                alert('Weapon updated.');
+                window.location.href = 'index.html';
+            })
+            .catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>

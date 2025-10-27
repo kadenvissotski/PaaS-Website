@@ -1,116 +1,139 @@
-//Libraries
-const path = require('path');
+// SQL injection prevention due to:
+// Proper use of parameterized queries (?)
+// Input validation with express-validator
+// No direct string concatenation of unchecked input into SQL
+
 const express = require('express');
-const cors = require('cors');
 const multer = require('multer');
-const { check, checkSchema, validationResult } = require('express-validator');
-const nier = require('./Model/nier');
+const { validationResult } = require('express-validator');
+const { weaponValidationRules } = require('./validation');
+const weapons = require('./Model/weapons');
+const connection = require('./Model/connection');
 
-//Setup defaults for script
 const app = express();
-// Enable CORS for all routes (configure origin via CORS_ORIGIN env var if needed)
 app.use(cors());
-// Body parsers (useful for JSON/urlencoded payloads)
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// Static (if you later add a public folder)
 app.use(express.static("public"));
+const upload = multer();
+const port = 80;
 
-//Stylesheet
 app.use(express.static(__dirname + '/public'));
-//Webpage - serve the root-level index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
+    res.sendFile(__dirname + '/public/index.html');
 });
 
-const storage = multer.diskStorage({
-    //Logic where to upload file
-    destination: function (request, file, callback) {
-        callback(null, 'uploads/')
-    },
-    //Logic to name the file when uploaded
-    filename: function (request, file, callback) {
-        /**
-         * @source https://stackoverflow.com/questions/19811541/get-file-name-from-absolute-path-in-nodejs
-         */
-        callback(null, path.parse(file.originalname).name + '-' + Date.now() + path.parse(file.originalname).ext)
+// GET all weapons (with optional filters, sorting, limit)
+app.get('/weapons/', upload.none(), async (req, res) => {
+    let whereSQL = "WHERE 1=1";
+    const queryParams = [];
+
+    if (req.query.weapon_name) {
+        whereSQL += " AND weapon_name LIKE ?";
+        queryParams.push(`%${req.query.weapon_name}%`);
     }
-})
-const upload = multer({
-    storage: storage,
-    //Validation for file upload
-    fileFilter: (request, file, callback) => {
-        const allowedFileMimeTypes = ["image/png", "image/jpg", "image/jpeg"];
-        callback(null, allowedFileMimeTypes.includes(file.mimetype));
+
+    if (req.query.type) {
+        whereSQL += " AND type = ?";
+        queryParams.push(req.query.type);
+    }
+
+    if (req.query.minDamage) {
+        whereSQL += " AND damage >= ?";
+        queryParams.push(parseInt(req.query.minDamage));
+    }
+
+    const validSorts = ['weapon_name', 'type', 'damage'];
+    let orderSQL = "";
+    if (req.query.sort && validSorts.includes(req.query.sort)) {
+        const dir = req.query.order === 'desc' ? 'DESC' : 'ASC';
+        orderSQL = ` ORDER BY ${req.query.sort} ${dir}`;
+    }
+
+    let limitSQL = " LIMIT 10";
+    if (req.query.limit === 'all') {
+        limitSQL = "";
+    } else if (!isNaN(parseInt(req.query.limit))) {
+        limitSQL = ` LIMIT ${parseInt(req.query.limit)}`;
+    }
+
+    try {
+        const result = await connection.query(`
+            SELECT weapon_id, weapon_name, type, damage, effect,
+                   material_name, total_needed, locations
+            FROM Combined_NieR_Data
+            ${whereSQL}
+            ${orderSQL}
+            ${limitSQL}
+        `, queryParams);
+        res.json({ data: result });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error retrieving data.' });
     }
 });
-// Use the port provided by the environment (Render) or default to 3000 locally
-const port = process.env.PORT || 3000; // Default port for HTTP server
 
-app.get(
-    '/nier/',
-    upload.none(),
-    //check(...app, ...)
-    async (request, response) => {
-        let result = {};
-        try {
-            result = await nier.getAll(request.query);
-        } catch (error) {
-            return response
-                .status(500) //Error code
-                .json({message: 'Something went wrong with the server.'});
-   
-        }
-        //Default response object
-        response.json({'data': result});
+// GET one weapon by ID
+app.get('/weapons/:id/', async (req, res) => {
+    try {
+        const result = await weapons.getById(req.params.id);
+        res.json({ data: result });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error retrieving weapon.' });
+    }
 });
 
-app.get(
-    '/nier/:id/',
+// INSERT new weapon
+app.post('/weapons/',
     upload.none(),
-    //check(...app, ...)
-    async (request, response) => {
-        let result = {};
-        try {
-            result = await nier.getById({ id: request.params.id });
-        } catch (error) {
-            return response
-                .status(500) //Error code
-                .json({message: 'Something went wrong with the server.'});
-   
+    weaponValidationRules,
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: 'Validation failed', errors: errors.array() });
         }
-        //Default response object
-        response.json({'data': result});
-});
 
-app.post(
-    '/nier/',
-    upload.none(),
-    //check(...app, ...)
-    async (request, response) => {
-        let result = {};
         try {
-            result = await nier.insert(request.query);
-        } catch (error) {
-            return response
-                .status(500) //Error code
-                .json({message: 'Something went wrong with the server.'});
-   
+            await weapons.insert(req.body);
+            res.json({ data: 'Weapon inserted successfully!' });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Error inserting weapon.' });
         }
-        //Default response object
-        response.json({'data': result});
-});
-
-app.put(
-    '/nier/:id/',
+    }
 );
 
-app.delete(
-   '/nier/:id/',
-);  
+// UPDATE existing weapon
+app.put('/weapons/:id/',
+    upload.none(),
+    weaponValidationRules,
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: 'Validation failed', errors: errors.array() });
+        }
 
+        try {
+            await weapons.edit(req.params.id, req.body);
+            res.json({ data: 'Weapon updated successfully!' });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Error updating weapon.' });
+        }
+    }
+);
 
+// DELETE weapon
+app.delete('/weapons/:id/', async (req, res) => {
+    try {
+        await weapons.remove(req.params.id);
+        res.json({ data: 'Weapon deleted successfully!' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error deleting weapon.' });
+    }
+});
 
+// Start server
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-})
+    console.log(`Server running on port ${port}`);
+});
