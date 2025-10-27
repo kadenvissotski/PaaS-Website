@@ -4,6 +4,8 @@
 // No direct string concatenation of unchecked input into SQL
 
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
 const multer = require('multer');
 const { validationResult } = require('express-validator');
 const { weaponValidationRules } = require('./validation');
@@ -11,14 +13,24 @@ const weapons = require('./Model/weapons');
 const connection = require('./Model/connection');
 
 const app = express();
+// Enable CORS
 app.use(cors());
+// Body parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 const upload = multer();
-const port = 80;
+// Use PORT from environment (Render sets this) or fallback to 3000
+const port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    // Serve the top-level index.html if present, otherwise fall back to public/index.html
+    const topLevelIndex = path.join(__dirname, '..', 'index.html');
+    if (require('fs').existsSync(topLevelIndex)) {
+        return res.sendFile(topLevelIndex);
+    }
+    return res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // GET all weapons (with optional filters, sorting, limit)
